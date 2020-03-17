@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
+from auth import token
 
-bot = commands.Bot(command_prefix='>')
+bot = commands.Bot(command_prefix='!')
 
 #Implement algo to determine if an account is an egirl or not
 @bot.command()
@@ -25,4 +26,4 @@ async def on_ready():
 async def on_message(message):
     print(message)
 
-bot.run('token')
+bot.run(token)
