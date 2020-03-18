@@ -1,7 +1,9 @@
 import discord
 from discord.ext import commands
 from auth import token, riot_dev_token
+from champions import get_champs_dict
 import aiohttp
+champs = get_champs_dict()
 
 bot = commands.Bot(command_prefix='!')
 
