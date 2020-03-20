@@ -9,14 +9,17 @@ bot = commands.Bot(command_prefix='!')
 
 RIOT_API = "https://oc1.api.riotgames.com"
 
+async def summoner_name_to_id(name, session):
+    async with session.get(f"{RIOT_API}/lol/summoner/v4/summoners/by-name/{name}", headers={"X-Riot-Token": app_token}) as resp:
+        playerId = await resp.json()
+        return playerId['id']
+
 #Implement algo to determine if an account is an egirl or not
 @bot.command()
 async def egirl(ctx, name):
     async with aiohttp.ClientSession() as session:
-        #Riot API application for auth pending
-        async with session.get(f"{RIOT_API}/lol/summoner/v4/summoners/by-name/{name}", headers={"X-Riot-Token": app_token}) as resp:
-            playerId = await resp.json()
-        async with session.get(f"{RIOT_API}/lol/champion-mastery/v4/champion-masteries/by-summoner/{playerId['id']}", headers={"X-Riot-Token": app_token}) as resp:
+        playerId = await summoner_name_to_id(name, session)
+        async with session.get(f"{RIOT_API}/lol/champion-mastery/v4/champion-masteries/by-summoner/{playerId}", headers={"X-Riot-Token": app_token}) as resp:
             data = await resp.json()
 
     print(data)
@@ -36,7 +39,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    await bot.process_commands(message)
     print(message.content)
+    await bot.process_commands(message)
 
 bot.run(token)
