@@ -38,7 +38,7 @@ def get_champs_dict():
         elif male_count > female_count:
             gender = "male"
 
-        dictVal = champs.update({champ['key']: {"name": champ['id'], "gender": gender}})
+        champs.update({champ['key']: {"name": champ['id'], "gender": gender}})
 
     return champs
 
