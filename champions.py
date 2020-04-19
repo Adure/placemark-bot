@@ -18,6 +18,7 @@ def get_champs_dict():
     r = httpx.get(f"https://ddragon.leagueoflegends.com/cdn/{version}/data/en_US/champion.json")
 
     champs = {}
+	# Classify champion genders and map their champion id to name
     for champ in r.json()['data'].values():
         counts = word_count(champ['blurb'].lower())
         gender = "unknown"
